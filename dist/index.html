@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GynCell Compass — Cervical cell line selector</title>
+    <meta
+      name="description"
+      content="Explore cervical, ovarian and uterine cell lines by the characteristics that matter to your research."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-collection="cervical">
+    <link rel="stylesheet" href="theme.css" />
+    <header>
+      <a class="brand" href="index.html"
+        ><svg class="compass-logo" viewBox="0 0 48 48" aria-hidden="true">
+          <circle
+            cx="24"
+            cy="24"
+            r="19"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="24"
+            cy="24"
+            r="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width=".6"
+          />
+          <path
+            d="M24 1v8M24 39v8M1 24h8M39 24h8"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path d="M32 12L27 27L16 36L21 21Z" fill="currentColor" />
+          <path d="M24 24L16 36L21 21Z" fill="var(--light)" />
+          <circle
+            cx="24"
+            cy="24"
+            r="2.5"
+            fill="var(--paper)"
+            stroke="currentColor"
+          />
+        </svg>
+        GynCell <b>Compass</b></a
+      ><label class="version-picker"
+        ><span>Version</span
+        ><select id="version" aria-label="Tool version">
+          <option value="2026-11" selected>11/2026</option>
+        </select></label
+      >
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow">
+            BEST-FIT CELL LINES FOR YOUR RESEARCH QUESTION
+          </div>
+          <h1>Welcome to GynCell Compass.</h1>
+          <p class="welcome-lead">
+            A free, interactive community resource for exploring gynaecological
+            cell lines and making cell line selection more transparent.
+          </p>
+          <div class="welcome-copy">
+            <p>
+              Developed alongside the review
+              <cite
+                >“Which Cell Line Is the Right One? - Rethinking Model Selection
+                in Gynaecological Cancer Research” (currently under
+                review)</cite
+              >, GynCell Compass integrates key cell line characteristics to
+              support the selection of models suited to your biological question
+              and experimental goals.
+            </p>
+            <p>
+              Start with your disease context, choose the characteristics that
+              matter, and set them as Required or Preferred. Reorder categories
+              to reflect your priorities, then compare candidate cell lines and
+              their sources. There is no fixed hierarchy: different research
+              questions call for different models. Use this as a starting point
+              and critically assess each candidate’s relevance, identity,
+              quality and experimental suitability.
+            </p>
+            <p>
+              We aim to keep this resource updated with the research community.
+              Please contact the study’s authors with questions or concerns, to
+              flag misleading information or findings that have been disproven
+              since the latest update, or to suggest an important study for
+              inclusion in a future version.
+            </p>
+          </div>
+        </div>
+      </section>
+      <nav class="collection-tabs" aria-label="Cancer collection">
+        <button data-collection="cervical" aria-pressed="true">
+          Cervical <span>46 cell lines</span></button
+        ><button data-collection="ovarian" aria-pressed="false">
+          Ovarian <span>154 cell lines</span></button
+        ><button data-collection="endometrial" aria-pressed="false">
+          Uterine <span>136 cell lines</span>
+        </button>
+      </nav>
+      <div class="workspace">
+        <aside>
+          <div class="panelhead">
+            <h2>Shape your selection</h2>
+            <button id="reset" class="textbutton">Reset</button>
+          </div>
+          <p class="hint">
+            Choose in any order. Move categories up to give their preferences
+            higher priority.
+          </p>
+          <div id="criteria"></div>
+          <details class="method">
+            <summary>How selection works</summary>
+            <p>
+              <b>Required</b> choices exclude nonmatches and unknowns.
+              <b>Preferred</b> choices sort candidates in category priority
+              order: the first preference takes precedence over all later ones.
+              Ties are alphabetical. Unselected categories do not affect
+              ranking.
+            </p>
+            <p>
+              Multiple choices within one category mean OR; requirements across
+              categories mean AND. NA is shown as “Not available” and never
+              treated as a negative result.
+            </p>
+          </details>
+        </aside>
+        <section class="results">
+          <div class="resulthead">
+            <div>
+              <div class="eyebrow">YOUR CANDIDATES</div>
+              <h2>
+                <span id="count">46</span> cell lines
+                <span id="ranklabel">to explore</span>
+              </h2>
+            </div>
+            <label class="search"
+              ><span>Search</span
+              ><input
+                id="search"
+                placeholder="Cell line or any characteristic…"
+                type="search"
+            /></label>
+          </div>
+          <div class="presets">
+            <span>Try a research question</span
+            ><button data-preset="squamous">
+              Squamous cell carcinoma · HPV16+</button
+            ><button data-preset="adeno">Adenocarcinoma · HPV18+</button
+            ><button data-preset="tumors">
+              In vivo tumorigenicity · squamous cell carcinoma
+            </button>
+          </div>
+          <div id="path" aria-label="Selection path"></div>
+          <div class="tools">
+            <span id="summary" role="status" aria-live="polite"></span
+            ><button id="export">Export results CSV ↗</button>
+          </div>
+          <div id="cards"></div>
+        </section>
+      </div>
+      <section class="decision-section" aria-labelledby="tree-heading">
+        <div class="eyebrow">YOUR SELECTION AT A GLANCE</div>
+        <div class="tree-heading-row">
+          <h2 id="tree-heading">Decision tree</h2>
+          <div class="tree-export-buttons" aria-label="Export decision tree">
+            <button type="button" id="tree-pdf">Save as PDF ↓</button
+            ><button type="button" id="tree-jpeg">Download JPEG ↓</button>
+          </div>
+        </div>
+        <p
+          id="tree-export-status"
+          class="hint"
+          role="status"
+          aria-live="polite"
+        ></p>
+        <p class="hint">
+          Read from top to bottom in your chosen priority order. Each decision
+          splits into matching and nonmatching cell lines. Preferred choices
+          affect ranking only.
+        </p>
+        <div id="decision-tree"></div>
+      </section>
+      <footer>
+        <span
+          >GynCell Compass · Cervical · 11/2026 · Updated 5 November 2026</span
+        >
+        <a
+          id="master-download"
+          class="master-download"
+          href="downloads/Excel%20File_Cell%20selector%20tool_112026.xlsx"
+          download
+          >Download master Excel ↓</a
+        >
+      </footer>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="model.js"></script>
+    <script src="app.js"></script>
+    <script src="releases.js"></script>
+    <script src="version.js"></script>
+    <script src="tree-export.js"></script>
+  </body>
+</html>

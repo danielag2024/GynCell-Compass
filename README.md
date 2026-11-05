@@ -1,6 +1,6 @@
 # GynCell Compass
 
-A browser-based selector for cervical, ovarian and uterine cell lines. The current release is **11/2026**, updated 5 November 2026, with 46 cervical, 154 ovarian and 136 uterine entries.
+A browser-based selection tool for cervical, ovarian and uterine cell lines. The current release is **11/2026**, updated 5 November 2026, with 46 cervical, 154 ovarian and 136 uterine entries.
 
 ## Open the tool
 
